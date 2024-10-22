@@ -6,7 +6,7 @@ Host any model that's compatible with huggingface text-generation pipeline and r
 
 ### start server
 ```bash
-python3 main.py --model-name "ecdaadmin/ELM2-2410-Instruct-Alpha" --host 0.0.0.0 --port 8080 --hf_token "hf_my-secret-token"
+python3 main.py --model-name "ecdaadmin/ELM2-2410-Instruct-Alpha" --host 127.0.0.1 --port 8000 --hf_token "hf_my-secret-token" --quantization="4bit"
 ```
 
 ### OpenAI python client
@@ -32,7 +32,6 @@ completion = client.chat.completions.create(
 ).choices[0].message.content
 ```
 
-### Connect to openwebui
 
 
 
