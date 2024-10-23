@@ -62,8 +62,6 @@ The server can be access via the OpenAI Python client. Ensure that the `base_url
 ```python
 from openai import OpenAI
 
-MODEL_NAME = "ELM2-2410-Instruct-Alpha"
-
 client = OpenAI(
     base_url="http://127.0.0.1:8000/v1",
     api_key='not-required',
