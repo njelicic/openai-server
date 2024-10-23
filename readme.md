@@ -6,12 +6,12 @@ Host any model that's compatible with huggingface text-generation pipeline and r
 
 `/v1/chat/completion` 
 Accepts the following parameters for text generation:
-        messages
-        frequency_penalty
-        max_completion_tokens
-        temperature
-        top_p
-        
+* messages
+* frequency_penalty
+* max_completion_tokens
+* temperature
+* top_p
+
 `/v1/models`
 `/v1/models/MODEL_NAME`
 
