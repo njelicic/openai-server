@@ -49,7 +49,6 @@ python3 main.py \
 curl http://127.0.0.1:8000/v1/chat/completions \
     -H "Content-Type: application/json" \
     -d '{
-            "model": "ELM2-2410-Instruct-Alpha",
             "messages": [
                 {"role": "user", "content": "What is diabetes?"}
             ]
