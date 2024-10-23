@@ -137,6 +137,7 @@ def create_app(model_name,hf_token,quantization):
             "created": 1729519604,
             "owned_by": "erasmus"
                 }
+
     # Endpoint for health check
     @app.get("/health")
     async def health():

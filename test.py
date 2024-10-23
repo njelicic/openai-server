@@ -10,7 +10,7 @@ client = OpenAI(
 prompt = 'What is diabetes?'
 
 completion = client.chat.completions.create(
-    model=MODEL_NAME,
+    model='not-required',
     messages=[
         {"role": "user", "content": prompt}
     ],
