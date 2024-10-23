@@ -4,16 +4,19 @@ Host any model that's compatible with huggingface text-generation pipeline and r
 
 ## Implemented endpoints
 
-`/v1/chat/completion` 
-Accepts the following parameters for text generation:
-* messages
-* frequency_penalty
-* max_completion_tokens
-* temperature
-* top_p
+* `/v1/chat/completion` 
+Endpoint for text generation. Accepts the following parameters:
+- messages
+- frequency_penalty
+- max_completion_tokens
+- temperature
+- top_p
 
-`/v1/models`
-`/v1/models/MODEL_NAME`
+* `/v1/models`
+Endpoint to list available models. Usefull for integration with front-end such as open-webui.
+
+* `/v1/models/MODEL_NAME`
+Endpoint to list model specs
 
 ## Usage
 
