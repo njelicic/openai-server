@@ -125,7 +125,7 @@ def create_app(model_name,hf_token,quantization):
                     "id": model_name.split('/')[-1],
                     "object": "model",
                     "created": 1729519604,
-                    "owned_by": "erasmus"
+                    "owned_by": model_name.split('/')[0]
                 }]}
 
     # Endpoint to list model specs
@@ -135,7 +135,7 @@ def create_app(model_name,hf_token,quantization):
             "id": model_name.split('/')[-1],
             "object": "model",
             "created": 1729519604,
-            "owned_by": "erasmus"
+            "owned_by": model_name.split('/')[0]
                 }
 
     # Endpoint for health check
