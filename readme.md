@@ -57,7 +57,7 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 
 ### OpenAI Python client
 
-The server can be access via the OpenAI Python client. Ensure that the `base_url` points to the host and port.   
+The server can be access via the OpenAI Python client. Ensure that the `base_url` points to the host and port. Note, `api_key` and `model` are required by the OpenAI client, however, they are unused by the server. 
 
 ```python
 from openai import OpenAI
