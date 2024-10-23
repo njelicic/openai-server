@@ -4,19 +4,16 @@ Host any model that's compatible with huggingface text-generation pipeline and r
 
 ## Implemented endpoints
 
-* `/v1/chat/completion` 
-Endpoint for text generation. Accepts the following parameters:
+* `/v1/chat/completion`: Endpoint for text generation. Accepts the following parameters:
     - messages
     - frequency_penalty
     - max_completion_tokens
     - temperature
     - top_p
 
-* `/v1/models`
-Endpoint to list available models. Usefull for integration with front-end such as open-webui.
+* `/v1/models`: Endpoint to list available models. Usefull for integration with front-ends such as open-webui.
 
-* `/v1/models/MODEL_NAME`
-Endpoint to list model specs
+* `/v1/models/MODEL_NAME`: Endpoint to list model specs
 
 ## Usage
 
@@ -44,6 +41,20 @@ python3 main.py \
 --port 8000 \
 --hf_token "hf_my-secret-token" \
 --quantization="4bit"
+```
+
+### CURL
+
+```bash
+curl http://127.0.0.1:8000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "ELM2-2410-Instruct-Alpha",
+            "messages": [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Who won the world series in 2020?"}
+            ]
+        }'
 ```
 
 ### OpenAI Python client
