@@ -30,11 +30,11 @@ pip3 install -r requirements.txt
 ### Start server
 
 Run main.py to start the server. The CLI accepts the following arguments:
-    - `--model-name`: The name of the model hosted on the Huggingface hub
-    - `--host`: Host IP adress of the server
-    - `--port`: Post of the server
-    - `--hf-token`: your hugginface token, nessecary to access 
-    - `--quantization`: BnB quantization strategy. Can be "4bit", "8bit" or "None"
+* `--model-name`: The name of the model hosted on the Huggingface hub
+* `--host`: Host IP adress of the server
+* `--port`: Post of the server
+* `--hf-token`: your hugginface token, nessecary to access 
+* `--quantization`: BnB quantization strategy. Can be "4bit", "8bit" or "None"
 
 #### Example usage
 ```bash
