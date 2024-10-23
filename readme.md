@@ -4,12 +4,19 @@ Host any model that's compatible with huggingface text-generation pipeline and r
 
 ## Usage
 
-### start server
+### Install
+```bash
+git clone https://github.com/njelicic/openai-server/
+cd openai-server
+pip3 install -r requirements.txt
+```
+
+### Start server
 ```bash
 python3 main.py --model-name "ecdaadmin/ELM2-2410-Instruct-Alpha" --host 127.0.0.1 --port 8000 --hf_token "hf_my-secret-token" --quantization="4bit"
 ```
 
-### OpenAI python client
+### OpenAI Python client
 
 ```python
 from openai import OpenAI
