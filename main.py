@@ -7,6 +7,7 @@ import time
 from typing import List, Dict, Optional
 import uuid
 import uvicorn
+import logging
 
 def format_chatml(messages):
     """
@@ -63,12 +64,11 @@ def create_app(model_name,hf_token,quantization):
         content: str
 
     class ChatRequest(BaseModel):
-        messages: List[Message]
+        messages: Optional[List[Message]]
         frequency_penalty: Optional[float] = 0.0
-        max_completion_tokens: Optional[int] = 100
+        max_completion_tokens: Optional[int] = 512
         temperature: Optional[float] = 1.0
         top_p: Optional[float] = 1.0
-
 
     # Endpoint to receive messages and generate a response
     @app.post("/v1/chat/completions")
