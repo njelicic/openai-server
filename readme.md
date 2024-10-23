@@ -51,8 +51,7 @@ curl http://127.0.0.1:8000/v1/chat/completions \
     -d '{
             "model": "ELM2-2410-Instruct-Alpha",
             "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Who won the world series in 2020?"}
+                {"role": "user", "content": "What is diabetes?"}
             ]
         }'
 ```
