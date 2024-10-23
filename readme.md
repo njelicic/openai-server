@@ -28,6 +28,15 @@ pip3 install -r requirements.txt
 ```
 
 ### Start server
+
+Run main.py to start the server. The CLI accepts the following arguments:
+    - `--model-name`: The name of the model hosted on the Huggingface hub
+    - `--host`: Host IP adress of the server
+    - `--port`: Post of the server
+    - `--hf-token`: your hugginface token, nessecary to access 
+    - `--quantization`: BnB quantization strategy. Can be "4bit", "8bit" or "None"
+
+#### Example usage
 ```bash
 python3 main.py \
 --model-name "ecdaadmin/ELM2-2410-Instruct-Alpha" \
@@ -38,6 +47,8 @@ python3 main.py \
 ```
 
 ### OpenAI Python client
+
+The server can be access via the OpenAI Python client. Ensure that the `base_url` points to the host and port.   
 
 ```python
 from openai import OpenAI
