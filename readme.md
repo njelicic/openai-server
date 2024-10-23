@@ -1,6 +1,6 @@
 # OpenAI compatible server.
 
-Host any model that's compatible with huggingface text-generation pipeline and run it as an openai compatible server. This project does not aim to replace tools such as vLLM, llama.cpp, etc. Instead, this software is intended serve models that are not (yet) supported by these frameworks. 
+Host any model that's compatible with huggingface text-generation pipeline as an OpenAI compatible server. This project does not aim to replace tools such as vLLM, llama.cpp, etc. Instead, this software is intended serve models that are not (yet) supported by these frameworks. 
 
 ## Implemented endpoints
 
