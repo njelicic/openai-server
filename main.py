@@ -1,7 +1,7 @@
 import argparse
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from transformers import AutoTokenizer, Phi3ForCausalLM, BitsAndBytesConfig, pipeline 
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline 
 import torch
 import time
 from typing import List, Dict, Optional
@@ -38,7 +38,7 @@ def init_pipe(model_name, hf_token,quantization):
     else:
         quantization_config=None
 
-    model = Phi3ForCausalLM.from_pretrained(
+    model = AutoModelForCausalLM.from_pretrained(
         model_name,
         token=hf_token,
         device_map="auto", 
