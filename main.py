@@ -9,24 +9,6 @@ import uuid
 import uvicorn
 import logging
 
-def format_chatml(messages):
-    """
-    Formats a list of messages into the ChatML template.
-
-    Parameters:
-        messages (list): A list of dictionaries, each containing 'role' and 'content' keys.
-
-    Returns:
-        str: A string formatted according to the ChatML template.
-    """
-    chatml = ''
-    for message in messages:
-        role = message['role']
-        content = message['content']
-        chatml += f'<|im_start|>{role}\n{content}\n<|im_end|>\n'
-    chatml += '<|im_start|>assistant\n' 
-    return chatml
-
 def init_pipe(model_name, hf_token,quantization):
     if quantization=='4bit':
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,
@@ -75,17 +57,17 @@ def create_app(model_name,hf_token,quantization):
     def chat(request: ChatRequest):
         try:
             
-            formatted_prompt = format_chatml([message.dict() for message in request.messages])
+            formatted_prompt = [message.dict() for message in request.messages]
             
             response = pipe(
-                formatted_prompt, 
+                formatted_prompt,
                 max_new_tokens=request.max_completion_tokens, 
                 temperature = request.temperature,
                 top_p = request.top_p,
                 num_return_sequences=1,
                 do_sample=True)[0]['generated_text']
             
-            assistant_reply = response.split('<|im_end|>')[-1].split('<|im_start|>assistant\n')[-1].strip()
+            assistant_reply = response[-1]['content']
             
             return {
                     "id": uuid.uuid4(),
