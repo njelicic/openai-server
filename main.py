@@ -58,16 +58,18 @@ def create_app(model_name,hf_token,quantization):
         try:
             
             formatted_prompt = [message.dict() for message in request.messages]
-            
+            generation_args = { 
+                "max_new_tokens": request.max_completion_tokens, 
+                "return_full_text": False, 
+                "temperature": request.temperature, 
+                "do_sample": False, 
+                "top_p":request.top_p,
+                "num_return_sequences":1,
+                "do_sample":True
+                } 
+
             response = pipe(
-                formatted_prompt,
-                max_new_tokens=request.max_completion_tokens, 
-                temperature = request.temperature,
-                top_p = request.top_p,
-                num_return_sequences=1,
-                do_sample=True)[0]['generated_text']
-            
-            assistant_reply = response[-1]['content']
+                formatted_prompt, **generation_args)[0]['generated_text']
             
             return {
                     "id": uuid.uuid4(),
@@ -79,7 +81,7 @@ def create_app(model_name,hf_token,quantization):
                     "index": 0,
                     "message": {
                         "role": "assistant",
-                        "content": assistant_reply,
+                        "content": response,
                     },
                     "logprobs": 'null',
                     "finish_reason": "stop"
