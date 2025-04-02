@@ -50,7 +50,7 @@ def create_app(model_name,hf_token,quantization):
 
     class ChatRequest(BaseModel):
         messages: Optional[List[Message]]
-        frequency_penalty: Optional[float] = 0.0
+        frequency_penalty: Optional[float] = 1.5
         max_completion_tokens: Optional[int] = 512
         temperature: Optional[float] = 0.1
         top_p: Optional[float] = 1.0
@@ -61,7 +61,7 @@ def create_app(model_name,hf_token,quantization):
         try:
             
             formatted_prompt = [message.dict() for message in request.messages]
-            print(formatted_prompt)
+            
             generation_args = { 
                 "max_new_tokens": request.max_completion_tokens, 
                 "return_full_text": False, 
@@ -69,7 +69,8 @@ def create_app(model_name,hf_token,quantization):
                 "do_sample": False, 
                 "top_p":request.top_p,
                 "num_return_sequences":1,
-                "do_sample":True
+                "do_sample":True,
+                'repetition_penalty':request.frequency_penalty
                 } 
 
             response = pipe(
