@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0; /* Light grey background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1{
+            font-size:large;
+        }
+        /* Chat container */
+        #chatbox {
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* Individual message bubble styles */
+        .message {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .user {
+            background-color: #dcf8c6; /* WhatsApp green */
+            align-self: flex-end; /* Align to right for user */
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .bot {
+            background-color: #e5e5e5; /* Light gray for bot */
+            align-self: flex-start; /* Align to left for bot */
+            border-radius: 15px 15px 15px 0;
+        }
+
+        /* Input area styling */
+        #message {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s ease;
+            box-sizing: border-box;
+            flex: 1;
+            height: 48px;
+        }
+
+        #message:focus {
+            border: 1px solid #25D366; /* WhatsApp green when focused */
+        }
+
+        /* Button styling */
+        button {
+            padding: 12px 15px;
+            border-radius: 50%;
+            border: none;
+            background-color: #25D366;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            height: 48px;
+            width: 48px;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #128C7E; /* Slightly darker green */
+        }
+
+        /* For the "Enter" key press */
+        #message, button {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Flex container for input and button */
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 0 20px;
+        }
+
+    </style>
+    <script>
+        let chatHistory = [];
+        async function getModel() {
+            let response = await fetch("/v1/models", {  
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            });
+            
+            let models = await response.json();  
+            
+            document.getElementById("header1").innerHTML = "You are chatting with: " + models['data'][0]['id'];
+
+        }
+
+        getModel();
+        
+
+        async function sendMessage() {
+            let userMessage = document.getElementById("message").value;
+            
+            if (!userMessage.trim()) return;
+
+            chatHistory.push({role: "user", content: userMessage});
+            
+            let chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<div class="message user"><b>You:</b> ${userMessage}</div>`;
+            document.getElementById("message").value = "";
+            chatbox.scrollTop = chatbox.scrollHeight;
+            console.log(chatHistory)
+            let response = await fetch("/v1/chat/completions", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({messages: chatHistory})
+            });
+
+            let result = await response.json();
+            let botMessage = result.choices[0].message.content;
+            chatHistory.push({role: "assistant", content: botMessage});
+
+            chatbox.innerHTML += `<div class="message bot"><b>Bot:</b> ${botMessage}</div>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <div>
+        <h1 id="header1"></h1>
+        <div id="chatbox"></div>
+        <div class="input-container">
+            <input type="text" id="message" placeholder="Type a message...">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+</body>
+</html>

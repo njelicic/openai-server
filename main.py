@@ -1,5 +1,7 @@
 import argparse
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline 
 import torch
@@ -40,6 +42,7 @@ def init_pipe(model_name, hf_token,quantization):
 def create_app(model_name,hf_token,quantization):
     pipe = init_pipe(model_name,hf_token,quantization)
     app = FastAPI()
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
     class Message(BaseModel):
         role: str
@@ -49,7 +52,7 @@ def create_app(model_name,hf_token,quantization):
         messages: Optional[List[Message]]
         frequency_penalty: Optional[float] = 0.0
         max_completion_tokens: Optional[int] = 512
-        temperature: Optional[float] = 1.0
+        temperature: Optional[float] = 0.1
         top_p: Optional[float] = 1.0
 
     # Endpoint to receive messages and generate a response
@@ -58,6 +61,7 @@ def create_app(model_name,hf_token,quantization):
         try:
             
             formatted_prompt = [message.dict() for message in request.messages]
+            print(formatted_prompt)
             generation_args = { 
                 "max_new_tokens": request.max_completion_tokens, 
                 "return_full_text": False, 
@@ -128,6 +132,10 @@ def create_app(model_name,hf_token,quantization):
         """Health check."""
         return Response(status_code=200)
 
+
+    @app.get("/chat", response_class=HTMLResponse)
+    def chat_page():
+        return FileResponse('static/index.html')
     return app
 
 
@@ -138,7 +146,7 @@ def main():
     parser.add_argument("--host", type=str, default="127.0.0.1", help="Host address")
     parser.add_argument("--port", type=int, default=8000, help="Port number")
     parser.add_argument("--hf_token", type=str, default="hf_1234", help="Huggingface token")
-    parser.add_argument("--quantization", type=str, default="4bit", help="Huggingface token")
+    parser.add_argument("--quantization", type=str, default="4bit", help="BnB quantization")
     args = parser.parse_args()
 
     app = create_app(args.model_name,args.hf_token,args.quantization)
