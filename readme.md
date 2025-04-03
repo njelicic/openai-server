@@ -43,7 +43,7 @@ python3 main.py \
 --quantization="4bit"
 ```
 
-### Chat interface
+### Chat Interface
 Navigate in the browser to `http://127.0.0.1:8000/chat` and start an interactive chat session with the model. 
 
 ### CURL
