@@ -46,7 +46,7 @@ python3 main.py \
 ### Chat Interface
 Navigate in the browser to `http://127.0.0.1:8000/chat` and start an interactive chat session with the model. 
 
-[![frontend]('frontend.png')]
+[![frontend](frontend.png)]
 
 ### CURL
 
